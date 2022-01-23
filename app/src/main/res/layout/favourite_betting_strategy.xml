@@ -11,6 +11,7 @@
     app:cardElevation="1dp"
     app:cardUseCompatPadding="true"
     android:theme="@style/Theme.BettingStrategies.StrategyCard">
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,25 +34,22 @@
             android:scaleType="centerCrop">
 
         </ImageView>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
 
             <Button
-                android:layout_gravity="center"
-                android:text="@string/read_more"
                 android:id="@+id/info_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
-            </Button>
-
-            <Button
-                android:layout_gravity="center"
-                android:text="@string/add_to_favourite"
-                android:id="@+id/add_favourite_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:text="@string/read_more"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
-            </Button>
+                app:layout_constraintStart_toStartOf="parent"></Button>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

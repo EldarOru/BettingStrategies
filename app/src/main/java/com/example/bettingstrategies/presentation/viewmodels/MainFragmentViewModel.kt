@@ -6,16 +6,16 @@ import androidx.lifecycle.ViewModel
 import com.example.bettingstrategies.domain.models.BettingStrategy
 import com.example.bettingstrategies.domain.usecases.AddToFavourite
 import com.example.bettingstrategies.domain.usecases.GetStrategies
-import com.example.bettingstrategies.domain.usecases.GetStrategiesRoom
+import com.example.bettingstrategies.domain.usecases.GetStrategiesFavourite
 
 class MainFragmentViewModel(
     private val getStrategies: GetStrategies,
     private val addToFavourite: AddToFavourite,
-    private val getStrategiesRoom: GetStrategiesRoom
-    ): () {
+    private val getStrategiesFavourite: GetStrategiesFavourite
+    ): ViewModel() {
 
     private var strategiesLiveData: LiveData<ArrayList<BettingStrategy>> = getStrategies.getStrategies()
-    private var strategiesLiveDataRoom: LiveData<ArrayList<BettingStrategy>> = getStrategiesRoom.getStrategiesRoom()
+    private var strategiesLiveDataFavourite: LiveData<ArrayList<BettingStrategy>>? = getStrategiesFavourite.getStrategiesRoom()
 
     var errorLiveData = MutableLiveData<Unit>()
     var successLiveData = MutableLiveData<Unit>()
@@ -25,7 +25,7 @@ class MainFragmentViewModel(
     }
 
     fun addToFavourite(bettingStrategy: BettingStrategy) {
-        if (strategiesLiveDataRoom.value!!.contains(bettingStrategy)) {
+        if (strategiesLiveDataFavourite?.value!!.contains(bettingStrategy)) {
             errorLiveData.value = Unit
         } else {
             addToFavourite.addToFavourite(bettingStrategy)

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,10 +45,18 @@ class MainFragment: Fragment() {
         mainFragmentViewModel = ViewModelProvider(this, ViewModelFactory())[MainFragmentViewModel::class.java]
         setRecyclerView()
         setClicksListener()
+
         mainFragmentViewModel.getStrategies().observe(viewLifecycleOwner){
             strategiesListAdapter.list = it
         }
 
+        mainFragmentViewModel.getError().observe(viewLifecycleOwner){
+            Toast.makeText(this.requireContext(), "You have already had this strategy in favourite", Toast.LENGTH_SHORT).show()
+        }
+
+        mainFragmentViewModel.getSuccess().observe(viewLifecycleOwner){
+            Toast.makeText(this.requireContext(), "Success", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setRecyclerView() {

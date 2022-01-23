@@ -3,10 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/macdo/AndroidStudioProjects/BettingStrategies/app/src/main/res/drawable/favourite.xml" value="0.2703125" />
         <entry key="..\:/Users/macdo/AndroidStudioProjects/BettingStrategies/app/src/main/res/layout/activity_main.xml" value="0.1793478260869565" />
         <entry key="..\:/Users/macdo/AndroidStudioProjects/BettingStrategies/app/src/main/res/layout/betting_strategy.xml" value="0.1" />
         <entry key="..\:/Users/macdo/AndroidStudioProjects/BettingStrategies/app/src/main/res/layout/bottom_navigation_fragment.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/macdo/AndroidStudioProjects/BettingStrategies/app/src/main/res/layout/detailed_favourite_strategy_fragment.xml" value="0.2246376811594203" />
         <entry key="..\:/Users/macdo/AndroidStudioProjects/BettingStrategies/app/src/main/res/layout/detailed_strategy_fragment.xml" value="0.17604166666666668" />
+        <entry key="..\:/Users/macdo/AndroidStudioProjects/BettingStrategies/app/src/main/res/layout/favourite_betting_strategy.xml" value="0.22418478260869565" />
         <entry key="..\:/Users/macdo/AndroidStudioProjects/BettingStrategies/app/src/main/res/layout/favourite_fragment.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/macdo/AndroidStudioProjects/BettingStrategies/app/src/main/res/layout/main_fragment.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/macdo/AndroidStudioProjects/BettingStrategies/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.25416666666666665" />

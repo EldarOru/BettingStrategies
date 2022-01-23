@@ -10,9 +10,9 @@ interface GeneralRepository {
 
     fun getStrategiesFromFirebase()
 
-    fun getStrategiesFromRoom()
+    fun getStrategiesFromFavourite()
 
-    fun getStrategiesRoom(): LiveData<ArrayList<BettingStrategy>>
+    fun getStrategiesFavourite(): LiveData<ArrayList<BettingStrategy>>
 
     fun getStrategies(): LiveData<ArrayList<BettingStrategy>>
 

@@ -1,29 +1,24 @@
 package com.example.bettingstrategies.presentation.viewmodels
 
-import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.bettingstrategies.data.GeneralRepositoryImpl
-import com.example.bettingstrategies.domain.usecases.AddToFavourite
-import com.example.bettingstrategies.domain.usecases.GetStrategies
-import com.example.bettingstrategies.domain.usecases.GetStrategiesRoom
-import com.example.bettingstrategies.domain.usecases.GetStrategy
-import com.example.bettingstrategies.presentation.App
-import com.google.firebase.database.core.Context
+import com.example.bettingstrategies.domain.usecases.*
+import com.example.bettingstrategies.presentation.fragments.FavouriteFragment
+
 
 class ViewModelFactory: ViewModelProvider.Factory{
-    val app = App()
 
     private val generalRepository by lazy {
-        GeneralRepositoryImpl(app.getAppContext()!!)
+        GeneralRepositoryImpl()
     }
 
     private val getStrategies by lazy {
         GetStrategies(generalRepository = generalRepository)
     }
 
-    private val getStrategiesRoom by lazy {
-        GetStrategiesRoom(generalRepository = generalRepository)
+    private val getStrategiesFavourite by lazy {
+        GetStrategiesFavourite(generalRepository = generalRepository)
     }
 
     private val getStrategy by lazy {
@@ -34,16 +29,35 @@ class ViewModelFactory: ViewModelProvider.Factory{
         AddToFavourite(generalRepository = generalRepository)
     }
 
+    private val deleteFromFavourites by lazy {
+        DeleteFromFavourite(generalRepository = generalRepository)
+    }
+
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainFragmentViewModel::class.java)){
             return MainFragmentViewModel(
                 getStrategies = getStrategies,
                 addToFavourite = addToFavourite,
-                getStrategiesRoom = getStrategiesRoom) as T
+                getStrategiesFavourite = getStrategiesFavourite) as T
         }
 
         if (modelClass.isAssignableFrom(DetailedStrategyFragmentViewModel::class.java)){
             return DetailedStrategyFragmentViewModel(
+                getStrategies = getStrategies,
+                getStrategy = getStrategy,
+                addToFavourite = addToFavourite,
+                getStrategiesFavourite = getStrategiesFavourite) as T
+        }
+
+        if (modelClass.isAssignableFrom(FavouriteFragmentViewModel::class.java)){
+            return FavouriteFragmentViewModel(
+                getStrategies = getStrategies,
+                deleteFromFavourite = deleteFromFavourites,
+                getStrategiesFavourite = getStrategiesFavourite) as T
+        }
+
+        if (modelClass.isAssignableFrom(DetailedFavouriteStrategyFragmentViewModel::class.java)){
+            return DetailedFavouriteStrategyFragmentViewModel(
                 getStrategies = getStrategies,
                 getStrategy = getStrategy,
                 addToFavourite = addToFavourite) as T
@@ -51,3 +65,4 @@ class ViewModelFactory: ViewModelProvider.Factory{
         throw IllegalAccessException("ViewModel class is not found")
     }
 }
+

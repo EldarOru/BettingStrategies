@@ -12,6 +12,7 @@ abstract class StrategyDatabase: RoomDatabase() {
 
     abstract fun dao(): DAO
 
+    /*
     companion object{
         @Volatile
         private var INSTANCE: StrategyDatabase? = null
@@ -33,4 +34,6 @@ abstract class StrategyDatabase: RoomDatabase() {
             }
         }
     }
+
+     */
 }

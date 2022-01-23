@@ -4,22 +4,24 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.room.Room
+import com.example.bettingstrategies.domain.DAO
 import com.example.bettingstrategies.domain.GeneralRepository
 import com.example.bettingstrategies.domain.StrategyDatabase
 import com.example.bettingstrategies.domain.models.BettingStrategy
 import com.google.firebase.database.*
 
-class GeneralRepositoryImpl(context: Context): GeneralRepository {
+class GeneralRepositoryImpl: GeneralRepository {
 
-    private val strategyDao = StrategyDatabase.getDatabase(context).dao()
     private var strategiesLiveData: MutableLiveData<ArrayList<BettingStrategy>>? = null
-    private var strategiesLiveDataRoom: MutableLiveData<ArrayList<BettingStrategy>>? = null
+    private var strategiesLiveDataFavourite: MutableLiveData<ArrayList<BettingStrategy>>? = null
     private var database: DatabaseReference? = null
 
     init {
         strategiesLiveData = MutableLiveData()
+        strategiesLiveDataFavourite = MutableLiveData()
         database = FirebaseDatabase.getInstance("https://bettingstrategies-144dd-default-rtdb.firebaseio.com/").reference
-        getStrategiesFromRoom()
+        getStrategiesFromFavourite()
         getStrategiesFromFirebase()
     }
 
@@ -44,27 +46,41 @@ class GeneralRepositoryImpl(context: Context): GeneralRepository {
         })
     }
 
-    override fun getStrategiesFromRoom() {
-        strategiesLiveDataRoom = strategyDao.readAllData()
+    override fun getStrategiesFromFavourite() {
+        database?.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val arrayStrategies = arrayListOf<BettingStrategy>()
+                for (snapshotOne in snapshot.child("favourites").children){
+                    arrayStrategies.add(
+                        BettingStrategy(id = snapshotOne.child("id").value.toString().toInt(),
+                            name = snapshotOne.child("name").value.toString(),
+                            picUrl = snapshotOne.child("picUrl").value.toString(),
+                            description = snapshotOne.child("description").value.toString())
+                    )
+                }
+                strategiesLiveDataFavourite?.value = arrayStrategies
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
     }
 
     override fun getStrategies(): LiveData<ArrayList<BettingStrategy>> {
         return strategiesLiveData!!
     }
 
-    override fun getStrategiesRoom(): LiveData<ArrayList<BettingStrategy>> {
-        return strategiesLiveDataRoom!!
+    override fun getStrategiesFavourite(): LiveData<ArrayList<BettingStrategy>> {
+        return strategiesLiveDataFavourite!!
     }
 
     override fun addStrategyToFavourite(bettingStrategy: BettingStrategy) {
-        strategyDao.addStrategy(bettingStrategy)
-        getStrategiesFromFirebase()
-        Log.d("ORU", strategiesLiveDataRoom!!.value.toString())
+        database?.child("favourites")?.child(bettingStrategy.id.toString())?.setValue(bettingStrategy)
     }
 
     override fun deleteStrategyFromFavourite(bettingStrategy: BettingStrategy) {
-        strategyDao.deleteStrategy(bettingStrategy)
-        getStrategiesFromFirebase()
+        database?.child("favourites")?.child(bettingStrategy.id.toString())?.removeValue()
     }
 
     override fun getStrategy(id: Int): BettingStrategy {
